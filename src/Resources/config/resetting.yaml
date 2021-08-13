@@ -1,0 +1,48 @@
+services:
+  # doctrine listener
+  api_platform_user_security.resetting.doctrine_listener:
+    class: Dotsafe\ApiPlatformUserSecurityBundle\EventListener\DoctrinePasswordResetListener
+    tags:
+      - {name: doctrine.event_listener, event: 'loadClassMetadata', method: 'loadClassMetadata'}
+
+  # Manager
+  api_platform_user_security.resetting.manager:
+    class: Dotsafe\ApiPlatformUserSecurityBundle\Manager\ResettingManager
+    autowire: true
+    autoconfigure: true
+    arguments:
+      $tokenTTL: '%api_platform_user_security.resetting.token_ttl%'
+      $userClass: '%api_platform_user_security.user_class%'
+
+  # Controllers
+  api_platform_user_security.resetting.request_controller:
+    class: 'Dotsafe\ApiPlatformUserSecurityBundle\Controller\Resetting\RequestController'
+    arguments:
+      $manager: '@api_platform_user_security.resetting.manager'
+    tags:
+      - {name: controller.service_arguments}
+
+  api_platform_user_security.resetting.token_controller:
+    class: 'Dotsafe\ApiPlatformUserSecurityBundle\Controller\Resetting\TokenController'
+    arguments:
+      $manager: '@api_platform_user_security.resetting.manager'
+    tags:
+      - {name: controller.service_arguments}
+
+  api_platform_user_security.resetting.reset_controller:
+    class: 'Dotsafe\ApiPlatformUserSecurityBundle\Controller\Resetting\ResetController'
+    arguments:
+      $manager: '@api_platform_user_security.resetting.manager'
+    tags:
+      - {name: controller.service_arguments}
+
+  # DataProviders
+  api_platform_user_security.resetting.token_data_provider:
+    class: 'Dotsafe\ApiPlatformUserSecurityBundle\DataProvider\Resetting\TokenDataProvider'
+    tags:
+      - {name: 'api_platform.item_data_provider'}
+
+  api_platform_user_security.resetting.reset_data_provider:
+    class: 'Dotsafe\ApiPlatformUserSecurityBundle\DataProvider\Resetting\ResetDataProvider'
+    tags:
+      - {name: 'api_platform.item_data_provider'}

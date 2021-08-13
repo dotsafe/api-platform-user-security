@@ -1,0 +1,68 @@
+resources:
+  Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Request:
+    shortName: "UserSecurityResetting"
+    collectionOperations:
+      post:
+        path: '%api_platform_user_security.resetting.request_path%'
+        controller: 'api_platform_user_security.resetting.request_controller'
+        openapi_context:
+          summary: "Request a password reset email"
+          description: |
+            This endpoint must be used to request a password reset token. You need to provide the `email` parameter in the body.
+
+            If the email is found then an email is sent to the given address.
+
+            This endpoint always return a 204 response.
+          responses:
+            204:
+              description: "The request has been processed."
+    itemOperations: []
+  Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Token:
+    shortName: "UserSecurityResetting"
+    properties:
+      token:
+        identifier: true
+    collectionOperations: []
+    itemOperations:
+      get:
+        path: '%api_platform_user_security.resetting.token_path%'
+        controller: 'api_platform_user_security.resetting.token_controller'
+        openapi_context:
+          summary: "Get a reset token"
+          description: |
+
+            Retrieve the token. If the token is expired then the API will respond with a 400 error.
+
+            You need to provide the token as the `id` property.
+          responses:
+            200:
+              description: "Return the token."
+              schema:
+                id: "The token"
+            400:
+              description: "The token is expired."
+            404:
+              description: "The token does not exists."
+  Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Reset:
+    shortName: "UserSecurityResetting"
+    properties:
+      token:
+        identifier: true
+    collectionOperations: []
+    itemOperations:
+      post:
+        path: '%api_platform_user_security.resetting.reset_path%'
+        method: 'POST'
+        controller: 'api_platform_user_security.resetting.reset_controller'
+        openapi_context:
+          summary: "Reset the password"
+          description: |
+            Reset the password. You need to provide the token as the `id` property.
+          responses:
+            204:
+              description: "The password has been updated."
+            400:
+              description: "The token is expired or the password confirmation does not match the password."
+            404:
+              description: "The token does not exists."
+
