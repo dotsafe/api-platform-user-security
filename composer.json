@@ -10,6 +10,7 @@
     ],
     "require": {
         "api-platform/core": "^2.1",
+        "symfony/config": "^4|^5",
         "symfony/event-dispatcher": "^4|^5"
     },
     "autoload": {
