@@ -11,8 +11,7 @@ class ResetDataProvider implements ItemDataProviderInterface, RestrictedDataProv
 {
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
     {
-        $data = new Reset();
-        $data->token = $id;
+        $data = new Reset($id);
 
         return $data;
     }

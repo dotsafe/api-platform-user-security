@@ -21,7 +21,7 @@ class ResetController
      */
     public function __invoke($data, EntityManagerInterface $entityManager)
     {
-        $user = $this->manager->loadUserByResetToken($data->token);
+        $user = $this->manager->loadUserByResetToken($data->getId());
 
         if (!$user) {
             // user not found

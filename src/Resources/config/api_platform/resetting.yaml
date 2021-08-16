@@ -20,7 +20,7 @@ resources:
   Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Token:
     shortName: "UserSecurityResetting"
     properties:
-      token:
+      id:
         identifier: true
     collectionOperations: []
     itemOperations:
@@ -46,7 +46,7 @@ resources:
   Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Reset:
     shortName: "UserSecurityResetting"
     properties:
-      token:
+      id:
         identifier: true
     collectionOperations: []
     itemOperations:

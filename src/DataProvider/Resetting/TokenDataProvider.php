@@ -10,8 +10,7 @@ class TokenDataProvider implements RestrictedDataProviderInterface, ItemDataProv
 {
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
     {
-        $token = new Token();
-        $token->token = $id;
+        $token = new Token($id);
 
         return $token;
     }
