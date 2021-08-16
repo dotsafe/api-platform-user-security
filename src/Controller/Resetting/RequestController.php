@@ -17,6 +17,8 @@ use Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Request;
 use Dotsafe\ApiPlatformUserSecurityBundle\Manager\ResettingManager;
 use Dotsafe\ApiPlatformUserSecurityBundle\Manager\ResettingManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -35,7 +37,11 @@ class RequestController
     public function __invoke($data, UserProviderInterface $userProvider, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher)
     {
         // retrieve user from provider
-        $user = $userProvider->loadUserByUsername($data->email);
+        try {
+            $user = $userProvider->loadUserByUsername($data->email);
+        } catch (AuthenticationException $e) {
+            return new Response('', Response::HTTP_NO_CONTENT);
+        }
 
         if (null === $user) {
             // user not found
