@@ -25,16 +25,6 @@ class Token
     protected string $id;
 
     /**
-     * @Groups({"security:resetting:reset"})
-     */
-    public ?string $password = null;
-
-    /**
-     * @Groups({"security:resetting:reset"})
-     */
-    public ?string $passwordConfirmation = null;
-
-    /**
      * @param string $id
      */
     public function __construct(string $id)
