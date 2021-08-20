@@ -11,7 +11,6 @@
 
 namespace Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 class Token
@@ -21,20 +20,16 @@ class Token
      *     "security:resetting:token",
      *     "security:resetting:reset"
      * })
+     *
+     * @var string
      */
-    protected string $id;
+    protected $id;
 
-    /**
-     * @param string $id
-     */
     public function __construct(string $id)
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;

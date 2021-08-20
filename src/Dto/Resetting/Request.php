@@ -13,5 +13,8 @@ namespace Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting;
 
 class Request
 {
-    public string $email;
+    /**
+     * @var string
+     */
+    public $email;
 }

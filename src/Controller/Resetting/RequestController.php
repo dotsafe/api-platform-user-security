@@ -11,20 +11,19 @@
 
 namespace Dotsafe\ApiPlatformUserSecurityBundle\Controller\Resetting;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Dotsafe\ApiPlatformUserSecurityBundle\Doctrine\Behaviors\PasswordResettable;
 use Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Request;
-use Dotsafe\ApiPlatformUserSecurityBundle\Manager\ResettingManager;
 use Dotsafe\ApiPlatformUserSecurityBundle\Manager\ResettingManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RequestController
 {
-    private ResettingManagerInterface $manager;
+    /**
+     * @var ResettingManagerInterface
+     */
+    private $manager;
 
     public function __construct(ResettingManagerInterface $manager)
     {
@@ -34,7 +33,7 @@ class RequestController
     /**
      * @param Request $data
      */
-    public function __invoke($data, UserProviderInterface $userProvider, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher)
+    public function __invoke($data, UserProviderInterface $userProvider)
     {
         // retrieve user from provider
         try {

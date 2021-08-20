@@ -1,15 +1,26 @@
 <?php
 
+/*
+ * This file is part of the ApiPlatformUserSecurity project.
+ *
+ * (c) Vincent Touzet <vincent.touzet@dotsafe.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Dotsafe\ApiPlatformUserSecurityBundle\Controller\Resetting;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Token;
 use Dotsafe\ApiPlatformUserSecurityBundle\Manager\ResettingManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class ResetController
 {
-    private ResettingManagerInterface $manager;
+    /**
+     * @var ResettingManagerInterface
+     */
+    private $manager;
 
     public function __construct(ResettingManagerInterface $manager)
     {
@@ -19,7 +30,7 @@ class ResetController
     /**
      * @param Token $data
      */
-    public function __invoke($data, EntityManagerInterface $entityManager)
+    public function __invoke($data)
     {
         $user = $this->manager->loadUserByResetToken($data->getId());
 
