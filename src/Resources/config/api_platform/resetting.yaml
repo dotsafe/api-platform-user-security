@@ -1,6 +1,6 @@
 resources:
   Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Request:
-    shortName: "UserSecurityResetting"
+    shortName: "UserSecurityResettingRequest"
     collectionOperations:
       post:
         path: '%api_platform_user_security.resetting.request_path%'
@@ -18,7 +18,7 @@ resources:
               description: "The request has been processed."
     itemOperations: []
   Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Token:
-    shortName: "UserSecurityResetting"
+    shortName: "UserSecurityResettingToken"
     properties:
       id:
         identifier: true
@@ -30,10 +30,9 @@ resources:
         openapi_context:
           summary: "Get a reset token"
           description: |
-
             Retrieve the token. If the token is expired then the API will respond with a 400 error.
 
-            You need to provide the token as the `id` property.
+            You need to provide the token as the `id`.
           responses:
             200:
               description: "Return the token."
@@ -44,7 +43,7 @@ resources:
             404:
               description: "The token does not exists."
   Dotsafe\ApiPlatformUserSecurityBundle\Dto\Resetting\Reset:
-    shortName: "UserSecurityResetting"
+    shortName: "UserSecurityResettingReset"
     properties:
       id:
         identifier: true
@@ -57,7 +56,15 @@ resources:
         openapi_context:
           summary: "Reset the password"
           description: |
-            Reset the password. You need to provide the token as the `id` property.
+            Reset the password. You need to provide the token as the `id`.
+          requestBody:
+            content:
+              "*/*":
+                schema:
+                  type: object
+                  properties:
+                    password: {type: string}
+                    passwordConfirmation: {type: string}
           responses:
             204:
               description: "The password has been updated."
