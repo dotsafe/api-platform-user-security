@@ -1,0 +1,54 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  quality:
+    runs-on: 'ubuntu-latest'
+    container: php:7.1
+    steps:
+      - name: Installing build dependencies
+        run: |
+          apt-get update && apt-get install -y git zip libzip-dev
+      - name: Installing php extension
+        run: |
+          docker-php-ext-install zip
+      - uses: actions/checkout@v2
+      - name: Installing composer
+        run: |
+          curl -sS https://getcomposer.org/download/2.1.6/composer.phar -o /usr/local/bin/composer
+          chmod +x /usr/local/bin/composer
+      - name: Installing dependencies
+        run: 'composer install'
+      - name: Check src quality
+        run: 'vendor/bin/ecs check src --ansi --no-progress-bar'
+      - name: Check tests quality
+        run: 'vendor/bin/ecs check tests --ansi --no-progress-bar'
+  test:
+    strategy:
+      matrix:
+        php: ["7.1", "7.2", "7.3", "7.4", "8.0"]
+        deps: ["--prefer-lowest", ""]
+        symfony: ["4.*", "5.*"]
+        exclude:
+          - php: "7.1"
+            symfony: "5.*"
+    runs-on: 'ubuntu-latest'
+    container: php:${{ matrix.php }}
+    steps:
+      - name: 'Installing build dependencies'
+        run: |
+          apt-get update && apt-get install -y git zip libzip-dev
+      - name: 'Installing php extension'
+        run: |
+          docker-php-ext-install zip
+      - uses: actions/checkout@v2
+      - name: 'Installing composer'
+        run: |
+          curl -sS https://getcomposer.org/download/2.1.6/composer.phar -o /usr/local/bin/composer
+          chmod +x /usr/local/bin/composer
+      - name: 'Require specific Symfony version'
+        run: |
+          export
+          SYMFONY_REQUIRE=${{ matrix.symfony }} composer global require --no-progress --no-scripts --no-plugins symfony/flex
+      - name: 'Install Composer Dependencies'
+        run: SYMFONY_REQUIRE=${{ matrix.symfony }} composer update --ansi --no-progress --no-interaction ${{ matrix.deps }}
+      - run: 'vendor/bin/simple-phpunit'

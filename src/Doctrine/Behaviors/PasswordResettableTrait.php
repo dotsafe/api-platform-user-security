@@ -13,9 +13,18 @@ namespace Dotsafe\ApiPlatformUserSecurityBundle\Doctrine\Behaviors;
 
 trait PasswordResettableTrait
 {
-    protected ?\DateTimeInterface $passwordRequestedAt = null;
-    protected ?string $passwordResetToken = null;
-    protected ?\DateTimeInterface $passwordResetTokenExpiresAt = null;
+    /**
+     * @var \DateTimeInterface|null
+     */
+    protected $passwordRequestedAt = null;
+    /**
+     * @var string|null
+     */
+    protected $passwordResetToken = null;
+    /**
+     * @var \DateTimeInterface|null
+     */
+    protected $passwordResetTokenExpiresAt = null;
 
     public function getPasswordRequestedAt(): ?\DateTimeInterface
     {

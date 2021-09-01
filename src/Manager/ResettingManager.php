@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the ApiPlatformUserSecurity project.
+ *
+ * (c) Vincent Touzet <vincent.touzet@dotsafe.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Dotsafe\ApiPlatformUserSecurityBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,10 +23,22 @@ class ResettingManager implements ResettingManagerInterface, ServiceSubscriberIn
 {
     use ServiceSubscriberTrait;
 
-    private int $tokenTTL;
-    private EntityManagerInterface $entityManager;
-    private EventDispatcherInterface $eventDispatcher;
-    private string $userClass;
+    /**
+     * @var int
+     */
+    private $tokenTTL;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+    /**
+     * @var string
+     */
+    private $userClass;
 
     public function __construct(EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher, int $tokenTTL, string $userClass)
     {
@@ -30,6 +51,7 @@ class ResettingManager implements ResettingManagerInterface, ServiceSubscriberIn
     public function canRequestResetting(PasswordResettable $user): bool
     {
         $lastAuthorizedAt = (new \DateTime('now'))->modify("-{$this->tokenTTL}minutes");
+
         return $user->getPasswordRequestedAt() < $lastAuthorizedAt;
     }
 
