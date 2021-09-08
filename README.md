@@ -9,7 +9,7 @@ This bundle provides user security for your API Platform application.
   * [Configuration](docs/index.md#configuration)
 * Usage
   * [Resetting](docs/resetting.md)
-  * Password change: TODO
+  * [Password change](docs/password-change.md)
   * Magic Link: TODO
   * Impersonate: TODO
 
