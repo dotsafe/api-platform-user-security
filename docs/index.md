@@ -22,4 +22,5 @@ api_platform_user_security:
 
 ## Usage
 
-* [**Resetting**](./resetting.md): To add the reset password capability to your API
+* [**Resetting**](./resetting.md): To add the reset password capability
+* [**PasswordChange](./password-change.md): To add the password change capability

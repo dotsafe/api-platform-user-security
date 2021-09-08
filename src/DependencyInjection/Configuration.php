@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
                     ->info('Your base User class')
                 ->end()
                 ->append($this->appendResettingSection())
+                ->append($this->appendPasswordChangeSection())
             ->end();
 
         return $treeBuilder;
@@ -46,6 +47,19 @@ class Configuration implements ConfigurationInterface
                     ->info('The number of minutes the token is valid.')
                     ->defaultValue(60 * 2)
                 ->end()
+            ->end();
+
+        return $node;
+    }
+
+    private function appendPasswordChangeSection()
+    {
+        $treeBuilder = new TreeBuilder('password_change');
+
+        $node = $treeBuilder->getRootNode()
+            ->canBeEnabled()
+            ->children()
+                ->scalarNode('path')->defaultValue('/security/password-change')->end()
             ->end();
 
         return $node;

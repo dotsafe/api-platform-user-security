@@ -49,6 +49,29 @@ class ApiPlatformUserSecurityExtensionTest extends TestCase
         $this->assertTrue($container->has('api_platform_user_security.resetting.reset_data_provider'));
     }
 
+    public function testICanEnablePasswordChange()
+    {
+        $container = $this->getContainer([
+            'user_class' => 'stdClass',
+        ]);
+
+        $this->assertFalse($container->has('api_platform_user_security.password_change.manager'));
+        $this->assertFalse($container->has('api_platform_user_security.password_change.controller'));
+        $this->assertFalse($container->has('api_platform_user_security.password_change.validator'));
+
+        // compile with password_change enabled
+        $container = $this->getContainer([
+            'user_class' => 'stdClass',
+            'password_change' => [
+                'enabled' => true,
+            ],
+        ]);
+
+        $this->assertTrue($container->has('api_platform_user_security.password_change.manager'));
+        $this->assertTrue($container->has('api_platform_user_security.password_change.controller'));
+        $this->assertTrue($container->has('api_platform_user_security.password_change.validator'));
+    }
+
     private function getContainer(array $config = [])
     {
         $container = new ContainerBuilder();
